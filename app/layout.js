@@ -14,6 +14,7 @@ export default function RootLayout({ children }) {
 		<html lang='en' suppressHydrationWarning>
 			<head>
 				<link rel='manifest' href='/manifest.json' />
+				<script src='https://aframe.io/releases/1.5.0/aframe.min.js'></script>
 			</head>
 			<body
 				className={cn(
