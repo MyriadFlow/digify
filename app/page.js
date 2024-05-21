@@ -4,9 +4,12 @@ import { useEffect, useRef, useState } from 'react'
 import { VoiceRecorder } from '@/components/ui/voice-recorder'
 import { Speech } from '@/utils/speechSynthesis'
 
+import { Avatar } from '@readyplayerme/visage'
+import { Metacard } from '@/components/ui/meta-card'
+
 export default function Home() {
 	useEffect(() => {
-		Speech('I watch you slip away')
+		// Speech('I watch you slip away')
 	}, [])
 
 	const displayText = async () => {
@@ -48,15 +51,19 @@ export default function Home() {
 	}
 
 	return (
-		<main className='relative h-screen'>
+		<main className='relative h-screen bg-yellow-600'>
 			<a-scene className='h-48'>
-				<a-sky src='/guico.jpg' rotation='0 -130 0'></a-sky>
+				<a-sky src='/freepika.jpg' rotation='0 -130 0'></a-sky>
 			</a-scene>
-			<div className='absolute bg-slate-950 h-[35vh] top-8 right-5 p-4 rounded-md'>
-				<div className='text-white'>
-					<h3>Metadata</h3>
-					<div>randowm data location</div>
-				</div>
+			<div className='absolute h-[35vh] top-8 right-5 p-4 rounded-md'>
+				<Metacard />
+			</div>
+			<div className='absolute top-16 left-9 h-max'>
+				<Avatar
+					modelSrc={
+						'https://models.readyplayer.me/664489db921a1404d9028d9a.glb'
+					}
+				/>
 			</div>
 			<div className='absolute bottom-12 left-[30%]'>
 				<p className='text-center font-bold '>Click on the mic icon to speak</p>
