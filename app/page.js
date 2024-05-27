@@ -1,74 +1,33 @@
-'use client'
+import Link from 'next/link'
 
-import { useEffect, useRef, useState } from 'react'
-import { VoiceRecorder } from '@/components/ui/voice-recorder'
-import { Speech } from '@/utils/speechSynthesis'
+async function fetchNfts() {
+	const res = await fetch('http://localhost:3000/api/products', {
+		cache: 'no-cache',
+	})
 
-import { Avatar } from '@readyplayerme/visage'
-import { Metacard } from '@/components/ui/meta-card'
+	if (!res.ok) throw new Error('something went wrong')
 
-export default function Home() {
-	useEffect(() => {
-		// Speech('I watch you slip away')
-	}, [])
+	const nftdata = await res.json()
+	return nftdata
+}
 
-	const displayText = async () => {
-		console.log('Media' + media)
-
-		const data = {
-			providers: ['openai'],
-			language: 'en',
-			file_url: media,
-			speakers: 2,
-			profanity_filter: false,
-			convert_to_wav: false,
-		}
-
-		const options = {
-			method: 'POST',
-
-			headers: {
-				Authorization: `Bearer ${TOKEN}`,
-				accept: 'application/json',
-				'content-type': 'application/json',
-			},
-			body: JSON.stringify(data),
-		}
-
-		try {
-			const res = await fetch(
-				'https://api.edenai.run/v2/audio/speech_to_text_async',
-				options
-			)
-			const data = await res.json()
-
-			setConvertedText(data?.results?.openai.text)
-
-			localStorage.setItem('Texts', JSON.stringify(data?.results?.openai))
-		} catch (error) {
-			console.log('error' + error)
-		}
-	}
+export default async function Home() {
+	const nfts = await fetchNfts()
 
 	return (
-		<main className='relative h-screen bg-yellow-600'>
-			<a-scene className='h-48'>
-				<a-sky src='/freepika.jpg' rotation='0 -130 0'></a-sky>
-			</a-scene>
-			<div className='absolute h-[35vh] top-8 right-5 p-4 rounded-md'>
-				<Metacard />
-			</div>
-			<div className='absolute top-16 left-9 h-max'>
-				<Avatar
-					modelSrc={
-						'https://models.readyplayer.me/664489db921a1404d9028d9a.glb'
-					}
-				/>
-			</div>
-			<div className='absolute bottom-12 left-[30%]'>
-				<p className='text-center font-bold '>Click on the mic icon to speak</p>
-				<VoiceRecorder />
-			</div>
+		<main className='h-screen flex flex-wrap justify-center items-center gap-4 bg-cyan-700'>
+			{nfts.map((item) => (
+				<Link
+					key={item.id}
+					href={`/collection/${item.id}`}
+					className='size-40 p-4 rounded transition-all bg-fuchsia-600 hover:bg-red-700 text-white cursor-pointer'
+				>
+					<div className='flex flex-col gap-4'>
+						<h1>{item.name}</h1>
+						<p className='truncate'>{item.description}</p>
+					</div>
+				</Link>
+			))}
 		</main>
 	)
 }

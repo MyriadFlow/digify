@@ -3,7 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"dev": "next dev & node server.js",
+		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint"
@@ -27,7 +27,8 @@
 		"react-icons": "^5.2.1",
 		"react-speech-recognition": "^3.10.0",
 		"tailwind-merge": "^2.3.0",
-		"tailwindcss-animate": "^1.0.7"
+		"tailwindcss-animate": "^1.0.7",
+		"three": "^0.164.1"
 	},
 	"devDependencies": {
 		"eslint": "^8",

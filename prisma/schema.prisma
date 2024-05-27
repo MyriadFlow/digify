@@ -18,3 +18,15 @@ model AudioFile {
   fileUrl   String @unique
   createdAt DateTime @default(now())
 }
+
+model Product {
+  id              Int      @id @default(autoincrement())
+  description     String
+  external_url    String
+  image_url       String
+  video_url       String
+  name            String
+  locked_features Boolean
+  gender          String
+  attributes      Json
+}
