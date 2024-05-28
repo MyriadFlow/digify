@@ -21,6 +21,8 @@ import { useState } from 'react'
 export default function Collection({ params }) {
 	const [showAnimationList, setShowAnimationList] = useState(false)
 	const [currentAnimation, setCurrentAnimation] = useState('')
+	const [unlock, setUnlock] = useState(false)
+
 	const { data, loading, error } = useFetchData(params.id)
 
 	if (loading) {
@@ -129,27 +131,33 @@ export default function Collection({ params }) {
 					locked={data.locked_features}
 				/> */}
 			</div>
-			<div className='absolute top-16 left-9'>
-				<div className='flex gap-1 items-start  h-[50vh]'>
+			<div className='absolute top-8 left-9'>
+				<div className='flex gap-1 items-start  h-[78vh]'>
 					<Avatar
 						modelSrc={data.external_url}
 						animationSrc={showAnimationList && currentAnimation}
 						cameraInitialDistance={3.5}
 					/>
-					<div className='flex flex-col items-start gap-4'>
-						<Button onClick={() => setShowAnimationList(!showAnimationList)}>
-							{showAnimationList ? 'Stop Animation' : 'Show animation list'}
+					{!unlock ? (
+						<Button onClick={() => setUnlock(true)}>
+							Unlock Avatar Features
 						</Button>
-						{showAnimationList && (
-							<>
-								{modelAttributes?.value.map((animation, index) => (
-									<Button onClick={() => handleAnimation(index)}>
-										Animation {index + 1}
-									</Button>
-								))}
-							</>
-						)}
-					</div>
+					) : (
+						<div className='flex flex-col items-start gap-4'>
+							<Button onClick={() => setShowAnimationList(!showAnimationList)}>
+								{showAnimationList ? 'Stop Animation' : 'Show animation list'}
+							</Button>
+							{showAnimationList && (
+								<>
+									{modelAttributes?.value.map((animation, index) => (
+										<Button onClick={() => handleAnimation(index)}>
+											Animation {index + 1}
+										</Button>
+									))}
+								</>
+							)}
+						</div>
+					)}
 				</div>
 				{/* <AvatarContainer
 					locked={data.locked_features}
